@@ -37,7 +37,7 @@ def main(cfg: DictConfig) -> None:
         gpus=cfg.trainer.gpus,
         accumulate_grad_batches=cfg.trainer.accumulate_grad_batches,
         auto_lr_find=cfg.trainer.auto_lr_find,
-        deterministic=True,
+        deterministic=cfg.trainer.deterministic,
     )
     
     # train
