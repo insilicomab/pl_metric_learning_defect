@@ -1,5 +1,6 @@
 from pytorch_lightning import callbacks
 from omegaconf import DictConfig
+import wandb
 
 
 def get_callbacks(config: DictConfig) -> list:
@@ -15,8 +16,8 @@ def get_callbacks(config: DictConfig) -> list:
         callback_list.append(earlystopping)
     if config.callbacks.model_checkpoint.enable:
         model_checkpoint = callbacks.ModelCheckpoint(
-            dirpath='model/ckpt',
-            filename=f'{config.encoder.model_name}-{config.layer.name}',
+            dirpath=wandb.run.dir,
+            filename=wandb.run.name,
             monitor=config.callbacks.model_checkpoint.monitor,
             mode=config.callbacks.model_checkpoint.mode,
             save_top_k=config.callbacks.model_checkpoint.save_top_k,
