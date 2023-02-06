@@ -88,7 +88,7 @@ class Net(pl.LightningModule):
         logits = self(x, t)
         y_proba = F.softmax(logits, dim=1)
         y_pred = torch.argmax(logits, dim=1)
-        t_onehot = torch.eye(self.config.num_classes)[t]
+        t_onehot = torch.eye(self.config.num_classes)[t.to('cpu')]
         outputs = {
             'true': t.to('cpu').squeeze(),
             'proba': y_proba.to('cpu'),
@@ -120,6 +120,7 @@ class Net(pl.LightningModule):
         self._log_metrics(true, y_proba, y_pred, t_onehot)
         self._save_confusion_matrix(true, y_pred)
         self._save_classification_report(true, y_pred)
+        self._save_roc_curve(t_onehot, y_proba)
     
 
     def _log_metrics(self, true, y_proba, y_pred, t_onehot):
@@ -190,7 +191,7 @@ class Net(pl.LightningModule):
                 tpr[i],
                 color=color,
                 lw=2,
-                label=f'ROC curve of class {self.label_to_int[i]} (area = {roc_auc[i]:0.2f})',
+                label=f'ROC curve of class {self.int_to_label[i]} (area = {roc_auc[i]:0.2f})',
             )
 
         plt.plot([0, 1], [0, 1], 'k--', lw=2)
