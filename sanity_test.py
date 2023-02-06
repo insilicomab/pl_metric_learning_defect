@@ -4,7 +4,7 @@ from omegaconf import DictConfig
 
 from src.utils import data_split
 from src.dataset import DataModule
-from src.model import Net, get_callbacks
+from src.model import Net
 
 
 @hydra.main(version_base=None, config_path='config', config_name='config')
@@ -33,7 +33,6 @@ def main(cfg: DictConfig) -> None:
     trainer = pl.Trainer(
         logger=False,
         max_epochs=cfg.trainer.max_epochs,
-        callbacks=get_callbacks(config=cfg),
         gpus=cfg.trainer.gpus,
         accumulate_grad_batches=cfg.trainer.accumulate_grad_batches,
         auto_lr_find=cfg.trainer.auto_lr_find,
