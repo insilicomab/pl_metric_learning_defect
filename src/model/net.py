@@ -58,7 +58,7 @@ class Net(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         x, t = batch
         logits = self(x, t)
-        preds = F.softmax(logits, dim=1)
+        preds = torch.argmax(logits, dim=1)
 
         loss = self.loss_fn(logits, t)
         self.log('train_loss', loss, on_step=False, on_epoch=True, prog_bar=True, logger=True)
@@ -72,7 +72,7 @@ class Net(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         x, t = batch
         logits = self(x, t)
-        preds = F.softmax(logits, dim=1)
+        preds = torch.argmax(logits, dim=1)
 
         loss = self.loss_fn(logits, t)
         self.log('val_loss', loss, on_step=False, on_epoch=True, prog_bar=True, logger=True)
