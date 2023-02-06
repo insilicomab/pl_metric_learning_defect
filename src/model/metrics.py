@@ -19,27 +19,41 @@ from omegaconf import DictConfig
 def get_metrics(config: DictConfig):
     metrics = torchmetrics.MetricCollection(
             [
-                torchmetrics.Accuracy(),
-                torchmetrics.Precision(
+                torchmetrics.Accuracy(
+                    task=config.metrics.task,
                     num_classes=config.num_classes,
                     average=config.metrics.average,
+                    top_k=config.metrics.top_k,
+                ),
+                torchmetrics.Precision(
+                    task=config.metrics.task,
+                    num_classes=config.num_classes,
+                    average=config.metrics.average,
+                    top_k=config.metrics.top_k,
                 ),
                 torchmetrics.Recall(
+                    task=config.metrics.task,
                     num_classes=config.num_classes,
                     average=config.metrics.average,
+                    top_k=config.metrics.top_k,
                 ),
                 torchmetrics.Specificity(
+                    task=config.metrics.task,
                     num_classes=config.num_classes,
                     average=config.metrics.average,
+                    top_k=config.metrics.top_k,
                 ),
                 torchmetrics.F1Score(
+                    task=config.metrics.task,
                     num_classes=config.num_classes,
                     average=config.metrics.average,
+                    top_k=config.metrics.top_k,
                 ),
                 torchmetrics.FBetaScore(
+                    task=config.metrics.task,
                     num_classes=config.num_classes,
                     average=config.metrics.average,
-                    beta=config.metrics.f_beta_weight,
+                    top_k=config.metrics.top_k,
                 ),
             ]
         )
@@ -47,7 +61,7 @@ def get_metrics(config: DictConfig):
     return metrics
 
 
-def get_classification_metrics(true, y_pred_proba, y_pred, t_onehot, config: DictConfig):
+def get_classification_metrics(true, y_proba, y_pred, t_onehot, config: DictConfig):
     accuracy = accuracy_score(true, y_pred)
     precision = precision_score(true, y_pred, average=config.metrics.average)
     recall = recall_score(true, y_pred, average=config.metrics.average)
@@ -59,7 +73,7 @@ def get_classification_metrics(true, y_pred_proba, y_pred, t_onehot, config: Dic
         average=config.metrics.average
     )
     kappa = cohen_kappa_score(true, y_pred)
-    auc = roc_auc_score(t_onehot, y_pred_proba, average='macro')
+    auc = roc_auc_score(t_onehot, y_proba, average='macro')
 
     results = (accuracy, precision, recall, f1, specificity, kappa, auc)
 
@@ -77,17 +91,17 @@ def get_confusion_matrix(true, y_pred, labels):
     return cm
 
 
-def get_roc_curve(t_onehot, y_pred_proba, config: DictConfig):
+def get_roc_curve(t_onehot, y_proba, config: DictConfig):
     fpr = dict()
     tpr = dict()
     roc_auc = dict()
 
     for i in range(config.num_classes):
-        fpr[i], tpr[i], _ = roc_curve(t_onehot[:, i], y_pred_proba[:, i])
+        fpr[i], tpr[i], _ = roc_curve(t_onehot[:, i], y_proba[:, i])
         roc_auc[i] = auc(fpr[i], tpr[i])
     
     # Compute micro-average ROC curve and ROC area
-    fpr['micro'], tpr['micro'], _ = roc_curve(t_onehot.ravel(), y_pred_proba.ravel())
+    fpr['micro'], tpr['micro'], _ = roc_curve(t_onehot.ravel(), y_proba.ravel())
     roc_auc['micro'] = auc(fpr['micro'], tpr['micro'])
 
     # First aggregate all false positive rates
