@@ -1,3 +1,4 @@
+import shutil
 import pytorch_lightning as pl
 import hydra
 from omegaconf import DictConfig
@@ -44,6 +45,9 @@ def main(cfg: DictConfig) -> None:
 
     # test
     trainer.test(net, datamodule=datamodule, ckpt_path="best")
+
+    # remove checkpoints
+    shutil.rmtree('checkpoints/')
 
 
 if __name__ == "__main__":
