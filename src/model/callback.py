@@ -2,7 +2,7 @@ from pytorch_lightning import callbacks
 from omegaconf import DictConfig
 
 
-def get_callback(config: DictConfig) -> list:
+def get_callbacks(config: DictConfig) -> list:
     callback_list = []
     if config.callbacks.early_stopping.enable:
         earlystopping = callbacks.EarlyStopping(
