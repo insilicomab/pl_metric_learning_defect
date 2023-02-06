@@ -34,7 +34,8 @@ def main(cfg: DictConfig) -> None:
     trainer = pl.Trainer(
         logger=False,
         max_epochs=cfg.trainer.max_epochs,
-        gpus=cfg.trainer.gpus,
+        accelerator=cfg.trainer.accelerator,
+        devices=cfg.trainer.devices,
         accumulate_grad_batches=cfg.trainer.accumulate_grad_batches,
         auto_lr_find=cfg.trainer.auto_lr_find,
         deterministic=cfg.trainer.deterministic,
