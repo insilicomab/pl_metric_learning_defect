@@ -67,8 +67,9 @@ def get_classification_metrics(true, y_proba, y_pred, t_onehot, config: DictConf
     recall = recall_score(true, y_pred, average=config.metrics.average)
     f1 = f1_score(true, y_pred, average=config.metrics.average)
     specificity = torchmetrics.functional.specificity(
-        torch.tensor(true),
         torch.tensor(y_pred),
+        torch.tensor(true),
+        task=config.metrics.task,
         num_classes=config.num_classes,
         average=config.metrics.average
     )
@@ -81,8 +82,8 @@ def get_classification_metrics(true, y_proba, y_pred, t_onehot, config: DictConf
 
 
 def get_classification_report(true, y_pred, int_to_label):
-    true = [int_to_label[str(true_)] for true_ in true]
-    y_pred = [int_to_label[str(y_pred_)] for y_pred_ in y_pred]
+    true = [int_to_label[true_] for true_ in true]
+    y_pred = [int_to_label[y_pred_] for y_pred_ in y_pred]
     return classification_report(true, y_pred)
 
 
