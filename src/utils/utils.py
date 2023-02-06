@@ -14,4 +14,5 @@ def data_split(config: DictConfig):
         stratify=label_list, 
         random_state=config.train_test_split.random_state
     )
-    return x_train, x_val, y_train, y_val
+    x_test, y_test = x_val, y_val
+    return x_train, x_val, x_test, y_train, y_val, y_test
