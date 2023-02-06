@@ -1,3 +1,9 @@
+"""
+This module is derived from Catalyst contrib layer.
+https://github.com/catalyst-team/catalyst/tree/master/catalyst/contrib/layers
+https://catalyst-team.github.io/catalyst/api/contrib.html#layers
+"""
+
 import math
 import torch
 import torch.nn as nn
