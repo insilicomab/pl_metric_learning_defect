@@ -148,7 +148,8 @@ callbacks:
 ## Trainer ##
 trainer:
     max_epochs: 100
-    gpus: 1
+    accelerator: gpu
+    devices: -1
     accumulate_grad_batches: 2
     auto_lr_find: True
     deterministic: True
