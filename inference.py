@@ -24,8 +24,8 @@ from src.prediction import predict_fn, InferenceModel, load_weights
 
 
 def main(args):
-    # query dataset
-    query_dataset, index2target = get_image_dataset(
+    # image dataset
+    image_dataset, index2target = get_image_dataset(
         df_dir='input/train.csv',
         img_dir='input/train_data',
         image_size=args.image_size,
@@ -58,7 +58,7 @@ def main(args):
 
     # inference
     im = InferenceModel(model.encoder)
-    im.train_knn(query_dataset)
+    im.train_knn(image_dataset)
 
     df, df_top1, df_mode = predict_fn(
         inference_model=im,
