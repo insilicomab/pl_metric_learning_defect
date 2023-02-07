@@ -1,7 +1,13 @@
 import os
+import pandas as pd
 from PIL import Image
+import torch
 from torch.utils.data import Dataset
+from torch.utils.data import DataLoader
 from torchvision.transforms import Compose
+from typing import Tuple
+
+from .transformation import TestTransforms
 
 
 class ImageDataset(Dataset):
@@ -31,3 +37,53 @@ class ImageDataset(Dataset):
         label = self.label_list[index]
         
         return image, label
+
+
+def get_inference_dataloader(
+        df_dir: str, 
+        img_dir: str, 
+        image_size: int
+    ) -> DataLoader:
+    # read test data
+    test_df = pd.read_csv(df_dir, header=None)
+    x_test = test_df[0].values
+
+    # test dataset
+    test_dataset = ImageDataset(
+        x_test,
+        x_test,
+        img_dir=img_dir,
+        transform=TestTransforms(image_size=image_size),
+        phase='test'
+    )
+
+    # dataloader
+    test_dataloader = DataLoader(test_dataset, batch_size=1, shuffle=False)
+    
+    return test_dataloader
+
+
+def get_query_dataset(
+        df_dir: str,
+        img_dir: str,
+        image_size: int,
+    ) -> Tuple[Dataset, dict]:
+    # read query data
+    query_df = pd.read_csv(df_dir)
+
+    # train image name list & label list
+    query_name_list = query_df['id']
+    query_list = query_df['target']
+
+    # index2target: key=index, value=target
+    index2target = query_df['target'].to_dict()
+
+    query_dataset = ImageDataset(
+        query_name_list,
+        query_list,
+        img_dir=img_dir,
+        transform=TestTransforms(image_size=image_size),
+        phase='test'
+    )
+
+    return query_dataset, index2target
