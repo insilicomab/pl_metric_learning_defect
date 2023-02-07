@@ -68,7 +68,7 @@ def get_image_dataset(
         img_dir: str,
         image_size: int,
     ) -> Tuple[Dataset, dict]:
-    # read query data
+    # read data
     image_df = pd.read_csv(df_dir)
 
     # train image name list & label list
@@ -78,7 +78,7 @@ def get_image_dataset(
     # index2target: key=index, value=target
     index2target = image_df['target'].to_dict()
 
-    query_dataset = ImageDataset(
+    image_dataset = ImageDataset(
         image_name_list,
         label_list,
         img_dir=img_dir,
@@ -86,4 +86,4 @@ def get_image_dataset(
         phase='test'
     )
 
-    return query_dataset, index2target
+    return image_dataset, index2target
