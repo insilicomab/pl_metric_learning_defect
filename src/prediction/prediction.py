@@ -4,6 +4,20 @@ from tqdm import tqdm
 import torch
 
 
+def load_weights(model, weights):
+    # device
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
+    # load state_dict from ckpt with 'model.' and 'loss_fn.W' key deleted
+    state_dict = torch.load(weights.name, map_location=torch.device(device))['state_dict']
+    state_dict = {k.replace('model.', '') : v for k, v in state_dict.items()}
+    model.load_state_dict(state_dict, strict=True)
+    model.eval()
+    model.to(device)
+
+    return model
+
+
 def predict_fn(inference_model, test_dataloader, index_to_target, k):
     filenames, distances, preds, top1s, modes = [], [], [], [], []
     with torch.no_grad():
