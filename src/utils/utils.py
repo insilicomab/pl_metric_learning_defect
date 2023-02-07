@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split
 from omegaconf import DictConfig
 
 
-def data_split(config: DictConfig):
+def data_split(config: DictConfig) -> list:
     train_df = pd.read_csv(config.train_df_dir)
     image_name_list = train_df['id'].values
     label_list = train_df['target'].values
