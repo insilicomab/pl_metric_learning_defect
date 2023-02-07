@@ -63,24 +63,24 @@ def get_inference_dataloader(
     return test_dataloader
 
 
-def get_query_dataset(
+def get_image_dataset(
         df_dir: str,
         img_dir: str,
         image_size: int,
     ) -> Tuple[Dataset, dict]:
     # read query data
-    query_df = pd.read_csv(df_dir)
+    image_df = pd.read_csv(df_dir)
 
     # train image name list & label list
-    query_name_list = query_df['id']
-    query_list = query_df['target']
+    image_name_list = image_df['id']
+    label_list = image_df['target']
 
     # index2target: key=index, value=target
-    index2target = query_df['target'].to_dict()
+    index2target = image_df['target'].to_dict()
 
     query_dataset = ImageDataset(
-        query_name_list,
-        query_list,
+        image_name_list,
+        label_list,
         img_dir=img_dir,
         transform=TestTransforms(image_size=image_size),
         phase='test'

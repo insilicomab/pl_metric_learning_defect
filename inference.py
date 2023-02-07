@@ -18,14 +18,14 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 import wandb
 
-from src.dataset import get_inference_dataloader, get_query_dataset
+from src.dataset import get_inference_dataloader, get_image_dataset
 from src.model import EncoderWithHead
 from src.prediction import predict_fn, InferenceModel, load_weights
 
 
 def main(args):
     # query dataset
-    query_dataset, index2target = get_query_dataset(
+    query_dataset, index2target = get_image_dataset(
         df_dir='input/train.csv',
         img_dir='input/train_data',
         image_size=args.image_size,
