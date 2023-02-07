@@ -48,12 +48,12 @@ def main(args):
     )
 
     # restore model weights in wandb
-    best_model_weights = wandb.restore(f'{args.model_name}.ckpt', run_path=args.wandb_run_path)
+    best_weights = wandb.restore(f'{args.model_name}.ckpt', run_path=args.wandb_run_path)
 
     # load weights
     model = load_weights(
         model=model, 
-        weights=best_model_weights,
+        weights=best_weights,
     )
 
     # inference
