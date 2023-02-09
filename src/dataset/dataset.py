@@ -5,7 +5,6 @@ import torch
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 from torchvision.transforms import Compose
-from typing import Tuple
 
 from .transformation import TestTransforms
 
@@ -67,7 +66,7 @@ def get_image_dataset(
         df_dir: str,
         img_dir: str,
         image_size: int,
-    ) -> Tuple[Dataset, dict]:
+    ) -> tuple[Dataset, dict]:
     # read data
     image_df = pd.read_csv(df_dir)
 

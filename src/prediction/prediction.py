@@ -2,6 +2,8 @@ import pandas as pd
 import statistics
 from tqdm import tqdm
 import torch
+from torch.utils.data import DataLoader
+from typing import Any
 
 
 def load_weights(model, weights):
@@ -18,7 +20,12 @@ def load_weights(model, weights):
     return model
 
 
-def predict_fn(inference_model, test_dataloader, index_to_target, k):
+def predict_fn(
+        inference_model: Any, 
+        test_dataloader: DataLoader, 
+        index_to_target: dict, 
+        k: int,
+    ) -> tuple(pd.DataFrame, pd.DataFrame, pd.DataFrame):
     filenames, distances, preds, top1s, modes = [], [], [], [], []
     with torch.no_grad():
         for image, filename in tqdm(test_dataloader):

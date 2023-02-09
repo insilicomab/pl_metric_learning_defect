@@ -27,7 +27,7 @@ class DataModule(pl.LightningDataModule):
         self.y_test = y_test
         self.config = config
 
-    def setup(self, stage=None):
+    def setup(self, stage=None) -> None:
         self.train_dataset = ImageDataset(
             image_name_list=self.x_train,
             label_list=self.y_train,
@@ -50,7 +50,7 @@ class DataModule(pl.LightningDataModule):
             phase='test'
         )
 
-    def train_dataloader(self):   
+    def train_dataloader(self) -> DataLoader:   
         return DataLoader(
             self.train_dataset,
             batch_size=self.config.train_dataloader.batch_size,
@@ -59,7 +59,7 @@ class DataModule(pl.LightningDataModule):
             pin_memory=self.config.train_dataloader.pin_memory,
         )
     
-    def val_dataloader(self):
+    def val_dataloader(self) -> DataLoader:
         return DataLoader(
             self.val_dataset,
             batch_size=self.config.val_dataloader.batch_size,
@@ -68,7 +68,7 @@ class DataModule(pl.LightningDataModule):
             pin_memory=self.config.val_dataloader.pin_memory,
         )
     
-    def test_dataloader(self):
+    def test_dataloader(self) -> DataLoader:
         return DataLoader(
             self.test_dataset,
             batch_size=self.config.test_dataloader.batch_size,
