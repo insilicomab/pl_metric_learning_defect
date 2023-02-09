@@ -4,7 +4,7 @@ from omegaconf import DictConfig
 
 
 class NoneTransform:
-    def __call__(self, image: torch.Tensor) -> torch.Tensor:
+    def __call__(self, image):
         return image
 
 

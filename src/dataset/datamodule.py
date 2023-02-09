@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 from torch.utils.data import DataLoader
 import pytorch_lightning as pl
@@ -10,12 +11,12 @@ from .transformation import Transforms
 class DataModule(pl.LightningDataModule):
     def __init__(
             self, 
-            x_train: list, 
-            y_train: list, 
-            x_val: list, 
-            y_val: list, 
-            x_test: list,
-            y_test: list,
+            x_train: np.ndarray, 
+            y_train: np.ndarray, 
+            x_val: np.ndarray, 
+            y_val: np.ndarray, 
+            x_test: np.ndarray,
+            y_test: np.ndarray,
             config: DictConfig
         ):
         super().__init__()

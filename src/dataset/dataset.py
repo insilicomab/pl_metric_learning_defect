@@ -1,9 +1,9 @@
 import os
+import numpy as np
 import pandas as pd
 from PIL import Image
 import torch
-from torch.utils.data import Dataset
-from torch.utils.data import DataLoader
+from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms import Compose
 
 from .transformation import TestTransforms
@@ -12,8 +12,8 @@ from .transformation import TestTransforms
 class ImageDataset(Dataset):
     def __init__(
         self,
-        image_name_list: list,
-        label_list: list, 
+        image_name_list: np.ndarray,
+        label_list: np.ndarray, 
         img_dir: str, 
         transform: Compose = None, 
         phase: str = None
