@@ -66,7 +66,7 @@ def get_image_dataset(
         df_dir: str,
         img_dir: str,
         image_size: int,
-    ) -> tuple[Dataset, dict]:
+    ) -> tuple:
     # read data
     image_df = pd.read_csv(df_dir)
 

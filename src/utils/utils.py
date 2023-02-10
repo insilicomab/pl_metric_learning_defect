@@ -4,9 +4,7 @@ from sklearn.model_selection import train_test_split
 from omegaconf import DictConfig
 
 
-def data_split(
-        config: DictConfig
-    ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+def data_split(config: DictConfig) -> tuple:
     train_df = pd.read_csv(config.train_df_dir)
     image_name_list = train_df['id'].values
     label_list = train_df['target'].values
