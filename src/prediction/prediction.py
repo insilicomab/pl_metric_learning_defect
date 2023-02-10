@@ -25,7 +25,7 @@ def predict_fn(
         test_dataloader: DataLoader, 
         index_to_target: dict, 
         k: int,
-    ) -> tuple(pd.DataFrame, pd.DataFrame, pd.DataFrame):
+    ) -> tuple:
     filenames, distances, preds, top1s, modes = [], [], [], [], []
     with torch.no_grad():
         for image, filename in tqdm(test_dataloader):
