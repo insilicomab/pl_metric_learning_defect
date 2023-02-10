@@ -13,6 +13,10 @@ class EncoderWithHead(nn.Module):
         layer_name: str, 
         embedding_size: int,
         num_classes: int,
+        s: float = 64,
+        m: float = 0.5,
+        eps: float = 1e-6,
+        k: int = 3,
         ):
         super().__init__()
         self.model_name = model_name
@@ -20,6 +24,10 @@ class EncoderWithHead(nn.Module):
         self.layer_name = layer_name
         self.embedding_size = embedding_size
         self.num_classes = num_classes
+        self.s = s
+        self.m = m
+        self.eps = eps
+        self.k = k
 
         self.encoder = timm.create_model(
             self.model_name,
@@ -31,6 +39,10 @@ class EncoderWithHead(nn.Module):
             layer_name = self.layer_name,
             embedding_size=self.embedding_size,
             num_classes=self.num_classes,
+            s=self.s,
+            m=self.m,
+            eps=self.eps,
+            k=self.k,
         )
 
 

@@ -17,7 +17,7 @@ hydra:
 wandb:
     project: pl-metric-learning-defective
     run_name: ""
-    tags: [baseline]
+    tags: [baseline, ArcFace]
     notes: ""
     config_name: config.yaml
     data_dir: ${img_dir}
@@ -103,6 +103,10 @@ encoder:
 
 layer:
     name: ArcFace
+    s: 64
+    m: 28.6
+    eps: 1e-6
+    k: 3
 
 metrics:
     task: binary

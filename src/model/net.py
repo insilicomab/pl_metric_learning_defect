@@ -34,6 +34,10 @@ class Net(pl.LightningModule):
             layer_name=config.layer.name,
             embedding_size=config.embedding_size,
             num_classes=config.num_classes,
+            s=config.layer.s,
+            m=config.layer.m,
+            eps=config.layer.eps,
+            k=config.layer.k,
         )
 
         # loss function
