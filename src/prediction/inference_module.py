@@ -248,7 +248,7 @@ class InferenceModel:
     im.load_knn_func("filename.index")
 
     """
-    
+
     def __init__(
         self,
         trunk,

@@ -4,8 +4,8 @@ from torch import nn
 
 
 def get_loss_fn(config: DictConfig) -> torch.nn.Module:
-    if config.loss_fn.name == 'CrossEntropyLoss':
+    if config.loss_fn.name == "CrossEntropyLoss":
         return nn.CrossEntropyLoss()
-    
+
     else:
-        raise ValueError(f'Unknown optimizer: {config.loss_fn.name}')
+        raise ValueError(f"Unknown optimizer: {config.loss_fn.name}")

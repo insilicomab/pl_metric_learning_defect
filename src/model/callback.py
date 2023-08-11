@@ -24,5 +24,5 @@ def get_callbacks(config: DictConfig) -> list:
             save_last=config.callbacks.model_checkpoint.save_last,
         )
         callback_list.append(model_checkpoint)
-        
+
     return callback_list

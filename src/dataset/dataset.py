@@ -13,10 +13,10 @@ class ImageDataset(Dataset):
     def __init__(
         self,
         image_name_list: np.ndarray,
-        label_list: np.ndarray, 
-        img_dir: str, 
-        transform: Compose = None, 
-        phase: str = None
+        label_list: np.ndarray,
+        img_dir: str,
+        transform: Compose = None,
+        phase: str = None,
     ) -> None:
         self.image_name_list = image_name_list
         self.label_list = label_list
@@ -32,15 +32,11 @@ class ImageDataset(Dataset):
         image = Image.open(image_path)
         image = self.transform(self.phase, image)
         label = self.label_list[index]
-        
+
         return image, label
 
 
-def get_inference_dataloader(
-        df_dir: str, 
-        img_dir: str, 
-        image_size: int
-    ) -> DataLoader:
+def get_inference_dataloader(df_dir: str, img_dir: str, image_size: int) -> DataLoader:
     # read test data
     test_df = pd.read_csv(df_dir, header=None)
     x_test = test_df[0].values
@@ -51,36 +47,36 @@ def get_inference_dataloader(
         x_test,
         img_dir=img_dir,
         transform=TestTransforms(image_size=image_size),
-        phase='test'
+        phase="test",
     )
 
     # dataloader
     test_dataloader = DataLoader(test_dataset, batch_size=1, shuffle=False)
-    
+
     return test_dataloader
 
 
 def get_image_dataset(
-        df_dir: str,
-        img_dir: str,
-        image_size: int,
-    ) -> tuple:
+    df_dir: str,
+    img_dir: str,
+    image_size: int,
+) -> tuple:
     # read data
     image_df = pd.read_csv(df_dir)
 
     # train image name list & label list
-    image_name_list = image_df['id']
-    label_list = image_df['target']
+    image_name_list = image_df["id"]
+    label_list = image_df["target"]
 
     # index2target: key=index, value=target
-    index2target = image_df['target'].to_dict()
+    index2target = image_df["target"].to_dict()
 
     image_dataset = ImageDataset(
         image_name_list,
         label_list,
         img_dir=img_dir,
         transform=TestTransforms(image_size=image_size),
-        phase='test'
+        phase="test",
     )
 
     return image_dataset, index2target
