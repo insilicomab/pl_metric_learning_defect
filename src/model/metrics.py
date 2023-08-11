@@ -1,19 +1,11 @@
 import numpy as np
-from sklearn.metrics import (
-    accuracy_score,
-    classification_report,
-    cohen_kappa_score,
-    confusion_matrix,
-    f1_score,
-    precision_score,
-    recall_score,
-    roc_auc_score,
-    roc_curve,
-    auc,
-)
 import torch
 import torchmetrics
 from omegaconf import DictConfig
+from sklearn.metrics import (accuracy_score, auc, classification_report,
+                             cohen_kappa_score, confusion_matrix, f1_score,
+                             precision_score, recall_score, roc_auc_score,
+                             roc_curve)
 
 
 def get_metrics(config: DictConfig):

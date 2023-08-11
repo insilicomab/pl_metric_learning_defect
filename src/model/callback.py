@@ -1,6 +1,6 @@
-from pytorch_lightning import callbacks
-from omegaconf import DictConfig
 import wandb
+from omegaconf import DictConfig
+from pytorch_lightning import callbacks
 
 
 def get_callbacks(config: DictConfig) -> list:

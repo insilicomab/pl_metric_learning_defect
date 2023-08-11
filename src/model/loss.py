@@ -1,6 +1,6 @@
 import torch
-from torch import nn
 from omegaconf import DictConfig
+from torch import nn
 
 
 def get_loss_fn(config: DictConfig) -> torch.nn.Module:

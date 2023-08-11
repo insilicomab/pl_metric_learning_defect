@@ -1,21 +1,20 @@
+from itertools import cycle
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+import pytorch_lightning as pl
 import seaborn as sns
-from itertools import cycle
 import torch
 import torch.nn.functional as F
-import pytorch_lightning as pl
 from omegaconf import DictConfig
 
-from .model import EncoderWithHead
 from .loss import get_loss_fn
+from .metrics import (get_classification_metrics, get_classification_report,
+                      get_confusion_matrix, get_metrics, get_roc_curve)
+from .model import EncoderWithHead
 from .optimizer import get_optimizer
 from .scheduler import get_scheduler
-from .metrics import (
-    get_classification_metrics, get_classification_report, 
-    get_confusion_matrix, get_metrics, get_roc_curve,
-)
 
 
 class Net(pl.LightningModule):
