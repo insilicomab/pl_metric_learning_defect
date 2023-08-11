@@ -19,3 +19,5 @@ jupyter
 pre-commit
 wandb
 mypy
+faiss-cpu==1.7.4
+faiss-gpu==1.7.2
