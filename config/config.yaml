@@ -1,0 +1,159 @@
+## Hydra Settings ##
+defaults:  
+  - _self_  
+  - override hydra/hydra_logging: disabled  
+  - override hydra/job_logging: disabled  
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  sweep:
+    dir: .
+    subdir: .
+
+
+## WanDB Settings ##
+wandb:
+    project: pl-metric-learning-defective
+    run_name: ""
+    tags: [baseline, ArcFace]
+    notes: ""
+    config_name: config.yaml
+    data_dir: ${img_dir}
+    model_name: ${encoder.model_name}
+    layer_name: ${layer.name}
+
+
+## User Settings ##
+img_dir: input/train_data
+train_df_dir: input/train.csv
+num_classes: 2
+embedding_size: 512
+image_size: 224
+seed: 0
+label_map: {
+  Defective: 0,
+  Normal: 1,
+}
+
+
+train_test_split:
+    test_size: 0.2
+    random_state: 42
+
+train_dataloader:
+    batch_size: 4
+    shuffle: True
+    num_workers: 2
+    pin_memory: True
+
+val_dataloader:
+    batch_size: 4
+    shuffle: False # DO NOT CHANGE!!!
+    num_workers: 2
+    pin_memory: True
+
+test_dataloader:
+    batch_size: 1
+    shuffle: False # DO NOT CHANGE!!!
+    num_workers: 2
+    pin_memory: True
+  
+train_transform:
+    resize:
+        enable: True
+        image_size: ${image_size}
+    random_horizontal_flip:
+        enable: True
+        p: 0.5
+    random_vertical_flip:
+        enable: True
+        p: 0.5
+    random_rotation:
+        enable: True
+        degrees: 20
+    random_affine:
+        enable: True
+        degrees: [-90, 90]
+        translate: [0, 0]
+        scale: [1.0, 1.0]
+        shear: [-0.2, 0.2]
+    color_jitter:
+        enable: True
+        brightness: 0.1
+        contrast: 0.1
+        saturation: 0.1
+        hue: 0
+    normalize:
+        mean: [0.485, 0.456, 0.406]
+        std: [0.229, 0.224, 0.225]
+
+test_transform:
+    resize:
+        enable: True
+        image_size: ${image_size}
+    normalize:
+        mean: [0.485, 0.456, 0.406]
+        std: [0.229, 0.224, 0.225]
+
+encoder:
+    model_name: convnext_base
+    pretrained: True
+
+layer:
+    name: ArcFace
+    s: 64
+    m: 28.6
+    eps: 1e-6
+    k: 3
+
+metrics:
+    task: binary
+    top_k: 1
+    average: macro
+    f_beta_weight: 0.5
+
+loss_fn:
+    name: CrossEntropyLoss
+
+optimizer:
+    name: 'AdamW'
+    adam:
+        lr: 1e-4
+        weight_decay: 1e-5
+    adamW:
+        lr: 1e-4
+        weight_decay: 1e-5
+    sgd:
+        lr: 1e-4
+        weight_decay: 1e-5
+
+scheduler:
+    name: CosineAnnealingWarmRestarts
+    CosineAnnealingWarmRestarts:
+        T_0: 10
+        eta_min: 1e-6
+
+callbacks:
+    early_stopping:
+        enable: True
+        monitor: 'val_loss'
+        patience: 10
+        mode: 'min'
+    model_checkpoint:
+        enable: True
+        monitor: 'val_loss'
+        mode: 'min'
+        save_top_k: 1
+        save_last: False
+
+
+## Trainer ##
+trainer:
+    max_epochs: 100
+    accelerator: gpu
+    devices: -1
+    accumulate_grad_batches: 2
+    auto_lr_find: True
+    deterministic: True
