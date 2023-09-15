@@ -38,8 +38,6 @@ class CosFace(nn.Module):
         >>> target = torch.empty(3, dtype=torch.long).random_(10)
         >>> output = layer(embedding, target)
         >>> loss = loss_fn(output, target)
-        >>> self.engine.backward(loss)
-
     """
 
     def __init__(  # noqa: D107
@@ -132,8 +130,6 @@ class AdaCos(nn.Module):
         >>> target = torch.empty(3, dtype=torch.long).random_(10)
         >>> output = layer(embedding, target)
         >>> loss = loss_fn(output, target)
-        >>> self.engine.backward(loss)
-
     """  # noqa: E501,W505
 
     def __init__(  # noqa: D107
@@ -194,7 +190,7 @@ class AdaCos(nn.Module):
         one_hot = torch.zeros_like(cos_theta)
         one_hot.scatter_(1, target.view(-1, 1).long(), 1)
 
-        if self.train:
+        if self.training:
             with torch.no_grad():
                 b_avg = (
                     torch.where(
@@ -241,7 +237,6 @@ class AMSoftmax(nn.Module):
         >>> target = torch.empty(3, dtype=torch.long).random_(10)
         >>> output = layer(embedding, target)
         >>> loss = loss_fn(output, target)
-        >>> self.engine.backward(loss)
     """
 
     def __init__(  # noqa: D107
@@ -337,7 +332,6 @@ class ArcFace(nn.Module):
         >>> target = torch.empty(3, dtype=torch.long).random_(10)
         >>> output = layer(embedding, target)
         >>> loss = loss_fn(output, target)
-        >>> self.engine.backward(loss)
     """
 
     def __init__(  # noqa: D107
@@ -440,7 +434,6 @@ class SubCenterArcFace(nn.Module):
         >>> target = torch.empty(3, dtype=torch.long).random_(10)
         >>> output = layer(embedding, target)
         >>> loss = loss_fn(output, target)
-        >>> self.engine.backward(loss)
     """
 
     def __init__(  # noqa: D107
@@ -538,7 +531,6 @@ class ArcMarginProduct(nn.Module):
         >>> target = torch.empty(3, dtype=torch.long).random_(10)
         >>> output = layer(embedding)
         >>> loss = loss_fn(output, target)
-        >>> self.engine.backward(loss)
     """
 
     def __init__(self, in_features: int, out_features: int):  # noqa: D107
@@ -603,7 +595,6 @@ class CurricularFace(nn.Module):
         >>> target = torch.empty(3, dtype=torch.long).random_(10)
         >>> output = layer(embedding, target)
         >>> loss = loss_fn(output, target)
-        >>> self.engine.backward(loss)
     """  # noqa: RST215
 
     def __init__(  # noqa: D107
